@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import "./FormSheets.css";
 import { Button } from "react-bootstrap";
 
-const initialValues = { 
+const initialValues = {
   name: "",
   email: "",
   age: "",
@@ -27,11 +27,16 @@ const createUrl =
   "https://sheet.best/api/sheets/f8e440ba-1e64-458c-ae00-80fffaa606db";
 
 export const FormSheets = () => {
-  
+  const [loading, setLoading] = useState(false);
+
   const onSubmit = async (name) => {
-    await axios
-      .post(createUrl, name)
-      .then((response) => {
+    setLoading(true)
+    await axios.post(createUrl, name).then((response) => {
+        
+      if (response.status === 200) {
+        setLoading(false);
+        alert('Enviado com sucesso');
+      }
         console.log(response);
         console.log(name);
       })
@@ -129,7 +134,7 @@ export const FormSheets = () => {
             </div>
             <div>
               <Button type="submit" className="btn btn-primary mr-3">
-                Send
+                {loading === true ? "Sending" : "Send"}
               </Button>
               <Button type="reset" className="btn btn-secondary mr-3">
                 Clear
