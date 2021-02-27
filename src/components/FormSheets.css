@@ -1,0 +1,13 @@
+.container {
+  padding: 20px;
+}
+
+.add-user {
+  box-shadow: 2px 2px 20px 1px rgb(234, 234, 234, 0.5);
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.error {
+  color: rgb(243, 95, 95);
+}
