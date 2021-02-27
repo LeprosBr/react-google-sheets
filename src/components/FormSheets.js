@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import "./FormSheets.css";
 import { Button } from "react-bootstrap";
+import { Modal } from "./modal";
 
 const initialValues = {
   name: "",
@@ -28,17 +29,21 @@ const createUrl =
 
 export const FormSheets = () => {
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(false);
 
   const onSubmit = async (name) => {
-    setLoading(true)
-    await axios.post(createUrl, name).then((response) => {
-        
-      if (response.status === 200) {
-        setLoading(false);
-        alert('Enviado com sucesso');
-      }
-        console.log(response);
-        console.log(name);
+    setLoading(true);
+
+    await axios
+      .post(createUrl, name)
+      .then((response) => {
+        if (response.status === 200) {
+          setLoading(false);
+          setMessage(true);
+          setTimeout(() => {
+            setMessage(false);
+          }, 3000);
+        }
       })
       .catch((errors) => {
         console.log(errors);
@@ -143,6 +148,7 @@ export const FormSheets = () => {
           </Form>
         </Formik>
       </div>
+      <Modal message="Succsess!!!" status={message} />
     </div>
   );
 };
